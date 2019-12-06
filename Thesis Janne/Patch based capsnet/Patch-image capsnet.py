@@ -1,11 +1,4 @@
 # -*- coding: utf-8 -*-
-!git clone https://github.com/XifengGuo/CapsNet-Keras.git
-
-!pip install --user keras==2.2.4
-!pip install --user tensorflow
-!pip install --user cv2
-
-
 import tensorflow as tf
 import keras
 import numpy as np
@@ -136,8 +129,7 @@ def CapsNet(input_shape, n_class, routings):
 
    # Layer 1: Just a conventional Conv2D layer
    conv1 = Conv2D(filters=256, kernel_size=9, strides=1, padding='valid', activation='relu', name='conv1')(x)
-   #conv2 = Conv2D(filters=256, kernel_size=9, strides=1, padding='valid', activation='relu', name='conv2')(conv1)
-   
+
    # Layer 2: Conv2D layer with `squash` activation, then reshape to [None, num_capsule, dim_capsule]
    primarycaps = PrimaryCap(conv1, dim_capsule=8, n_channels=32, kernel_size=9, strides=2, padding='valid')
 
@@ -241,15 +233,7 @@ print(f1_score(y_test_patches, predictions ))
 print(classification_report(y_test_patches, predictions))
 print(accuracy_score(y_test_patches, predictions))
 
-print(sum(y_test_patches==0))
-print(sum(y_test_patches==1))
 
-print(4000/6250) # he predicts 60% because that's predicting all 1's
-
-print(f1_score(y_test_patches, predictions))
-
-confusion_mtx = confusion_matrix(y_test_patches, predictions) 
-print(confusion_mtx)
 
 
 
