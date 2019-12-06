@@ -91,7 +91,7 @@ print("We have", sum(y_train==0),"with no tumor in x_train and", sum(y_train == 
 
 """### LeNet"""
 def lenet_model():
-  adam = Adam(lr=0.0001)  #LR of 0.001 LEADS TO OVERFITTING
+  adam = Adam(lr=0.00001)
   model = Sequential()
   model.add(layers.Conv2D(6,(5,5), activation = 'relu', input_shape = (224,224,3), name = 'conv1')) 
   model.add(layers.AveragePooling2D((2, 2), name = 'avgpool1'))
