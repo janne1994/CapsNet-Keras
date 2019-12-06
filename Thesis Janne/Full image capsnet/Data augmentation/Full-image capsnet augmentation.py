@@ -1,11 +1,4 @@
 # -*- coding: utf-8 -*-
-!git clone https://github.com/XifengGuo/CapsNet-Keras.git
-
-!pip install --user keras==2.2.4
-!pip install --user tensorflow
-!pip install --user cv2
-
-
 import tensorflow as tf
 import keras
 import numpy as np
@@ -109,10 +102,9 @@ def CapsNet(input_shape, n_class, routings):
 
    # Layer 1: Just a conventional Conv2D layer
    conv1 = Conv2D(filters=256, kernel_size=9, strides=1, padding='valid', activation='relu', name='conv1')(x)
-   conv2 = Conv2D(filters=256, kernel_size=9, strides=1, padding='valid', activation='relu', name='conv2')(conv1)
    
    # Layer 2: Conv2D layer with `squash` activation, then reshape to [None, num_capsule, dim_capsule]
-   primarycaps = PrimaryCap(conv2, dim_capsule=8, n_channels=32, kernel_size=9, strides=2, padding='valid')
+   primarycaps = PrimaryCap(conv1, dim_capsule=8, n_channels=32, kernel_size=9, strides=2, padding='valid')
 
    # Layer 3: Capsule layer. Routing algorithm works here.
    digitcaps = CapsuleLayer(num_capsule=n_class, dim_capsule=16, routings=routings,
