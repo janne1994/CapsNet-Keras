@@ -1,6 +1,26 @@
 # CapsNet-Keras
 [![License](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/XifengGuo/CapsNet-Keras/blob/master/LICENSE)
 
+
+
+Repository for thesis MSc CIS: Cognitive Science & Artificial Intelligence on binary brain tumor detection using CNN and capsule networks. Images can be found at https://www.kaggle.com/navoneel/brain-mri-images-for-brain-tumor-detection
+
+Please gitclone https://github.com/XifengGuo/CapsNet-Keras.git to import the Capsule Layers library
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 A Keras implementation of CapsNet in the paper:   
 [Sara Sabour, Nicholas Frosst, Geoffrey E Hinton. Dynamic Routing Between Capsules. NIPS 2017](https://arxiv.org/abs/1710.09829)   
 The current `average test error = 0.34%` and `best test error = 0.30%`.   
