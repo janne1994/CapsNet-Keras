@@ -145,8 +145,8 @@ label_ranges = conv_int_list(t) #Building the right list type for the labels
 
 x_labels_yes = labeling_patches(label_ranges) #labeling the patches in the right place
 x_labels_no = labeling_neg_patches(x_patches_no)
-flattened_yes_labs = x_labels_yes.reshape((30208))
-flattened_yes_patches = x_patches_yes.reshape((30208, 14, 14))
+flattened_yes_labs = x_labels_yes.reshape((39680))
+flattened_yes_patches = x_patches_yes.reshape((39680, 14, 14))
 flattened_no_labs = x_labels_no.reshape((25088))
 flattened_no_patches = x_patches_no.reshape((25088, 14, 14))
 
@@ -156,6 +156,7 @@ print(flattened_yes_patches.shape)
 print(flattened_no_labs.shape)
 print(flattened_no_patches.shape)
 
+#Displaying a patched image
 i = 0
 plt.figure(figsize = (18,14))
 for image, num in zip(flattened_yes_patches[256:512], (flattened_yes_labs[256:512].astype('uint8'))):
@@ -167,13 +168,11 @@ for image, num in zip(flattened_yes_patches[256:512], (flattened_yes_labs[256:51
 
 """### Combining the labels and splitting the sets"""
 
-flattened_yes_labs = list(x_labels_yes.reshape((30208)))
-flattened_yes_patches = x_patches_yes.reshape((30208, 14, 14))
-flattened_no_labs = list(x_labels_no.reshape((25088)))
-flattened_no_patches = x_patches_no.reshape((25088, 14, 14))
+flattened_yes_labs = list(flattened_yes_labs)
+flattened_no_labs = list(flattened)
 
 all_patches = np.vstack((flattened_yes_patches, flattened_no_patches))
-all_labs = np.array(flattened_yes_labs + flattened_no_labs)
+all_labs = np.array(list(list(flattened_yes_labs) + list(flattened_no_labs)))
 
 print(all_patches.shape)
 print(all_labs.shape)
@@ -235,9 +234,9 @@ print(balanced_x_test.shape)
 print(balanced_x_val.shape)
 
 #Shaping the patches so they fit into the model
-x_train_patches = x_train.reshape((35388, 14, 14 ,1))
-x_test_patches = x_test.reshape((11060, 14, 14 ,1))
-x_val_patches = x_val.reshape((8848, 14, 14 ,1))
+x_train_patches = x_train.reshape((3332, 14, 14 ,1))
+x_test_patches = x_test.reshape((950, 14, 14 ,1))
+x_val_patches = x_val.reshape((718, 14, 14 ,1))
 y_train_patches = y_train
 y_val_patches = y_val
 y_test_patches = y_test
@@ -253,7 +252,6 @@ def CapsNet(input_shape, n_class, routings):
 
    # Layer 1: Just a conventional Conv2D layer
    conv1 = Conv2D(filters=256, kernel_size=9, strides=1, padding='same', activation='relu', name='conv1')(x)
-   #conv2 = Conv2D(filters=256, kernel_size=9, strides=1, padding='valid', activation='relu', name='conv2')(conv1)
    
    # Layer 2: Conv2D layer with `squash` activation, then reshape to [None, num_capsule, dim_capsule]
    primarycaps = PrimaryCap(conv1, dim_capsule=8, n_channels=32, kernel_size=9, strides=2, padding='same')
@@ -283,14 +281,7 @@ def CapsNet(input_shape, n_class, routings):
    train_model = models.Model([x, y], [out_caps, decoder(masked_by_y)])
    eval_model = models.Model(x, [out_caps, decoder(masked)])
 
-  #  # manipulate model
-  #  noise = layers.Input(shape=(n_class, 16))
-  #  noised_digitcaps = layers.Add()([digitcaps, noise])
-  #  masked_noised_y = Mask()([noised_digitcaps, y])
-  #  manipulate_model = models.Model([x, y, noise], decoder(masked_noised_y))
-
-   return train_model, eval_model#, manipulate_model
-  
+   return train_model, eval_model
   
 def margin_loss(y_true, y_pred):
     """
