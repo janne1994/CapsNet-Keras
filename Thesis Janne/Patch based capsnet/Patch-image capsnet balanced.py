@@ -169,7 +169,7 @@ for image, num in zip(flattened_yes_patches[256:512], (flattened_yes_labs[256:51
 """### Combining the labels and splitting the sets"""
 
 flattened_yes_labs = list(flattened_yes_labs)
-flattened_no_labs = list(flattened)
+flattened_no_labs = list(flattened_no_labs)
 
 all_patches = np.vstack((flattened_yes_patches, flattened_no_patches))
 all_labs = np.array(list(list(flattened_yes_labs) + list(flattened_no_labs)))
