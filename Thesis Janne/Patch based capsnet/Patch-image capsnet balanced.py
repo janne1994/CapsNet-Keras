@@ -22,6 +22,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.metrics import classification_report
 from sklearn.feature_extraction import image
 from skimage import color
+from keras import backend as K
 
 # Make sure the capsulelayers package is installed from: https://github.com/XifengGuo/CapsNet-Keras
 
